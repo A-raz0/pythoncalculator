@@ -1,0 +1,424 @@
+from bakery import assert_equal
+from drafter import *
+from dataclasses import dataclass
+
+
+
+hide_debug_information()
+set_website_title("Python Complete Calculator")
+set_website_framed(False)
+
+
+@dataclass
+class State:
+    first_num: str
+    second_num: str
+    result: str
+    log: list
+    
+    """
+    class State with the fields:
+    first_num - first number that the user inputs taken as a string and returns as a float
+    second_num - second number that the user inputs taken as a string and returns as a float
+    result - the result of the function called with the 2 numbers again turned from a string to return a float
+    log - list that returns the last 5 fubctions called from the calculator
+    """
+    
+@route
+def index(state: State) -> Page:
+    return Page(state, [
+        "Enter first number: ",
+        TextBox("first", state.first_num),
+        "Enter second number (or exponent value): ",
+        TextBox("second", state.second_num),
+        Button("Add", add_page),
+        Button("Subtract", sub_page),
+        Button("Multiply", times_page),
+        Button("Divide", div_page),
+        Button("Modulo", mod_page),
+        Button("Exponent", power_page),
+        "The result is: ",
+        state.result,
+        "Log:",
+        *state.log[-5:]
+    ])
+
+    """
+    Created the interfce of the websiste using text box and Page to show create the layout of the website
+
+    Parameters:
+    State takes in the State class defined previously in the code
+
+    Returns:
+    Page which turns it into the website that you see
+    """
+@route
+def add_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 + num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Addition was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Addition failed")
+    
+    return index(state)
+
+    """
+    Add function on the calculator takes first number inputted and second and returns a result as well as if the addition was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the addition result and displays it into the website that you see
+    """
+
+@route
+def sub_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 - num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Subtraction was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Subtraction failed")
+        
+    return index(state)
+
+    """
+    Sub function on the calculator takes first number inputted and second and returns a result as well as if the subtraction was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the subtraction result and displays it into the website that you see
+    """
+        
+@route
+def times_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 * num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Multiplication was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Multiplication failed")
+    return index(state)
+
+    """
+    Times function on the calculator takes first number inputted and second and returns a result as well as if the multiplication was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the multiplication result and displays it into the website that you see
+    """
+        
+@route
+def div_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 / num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Division was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Division failed")
+        
+    return index(state)
+
+    """
+    Div function on the calculator takes first number inputted and second and returns a result as well as if the division was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the addition result and displays it into the website that you see
+    """
+        
+@route
+def mod_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 % num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Modulo was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Modulo failed")
+        
+    return index(state)
+
+    """
+    mod function on the calculator takes first number inputted and second and returns a result as well as if the modulo was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the remainder result and displays it into the website that you see
+    """
+        
+@route
+def power_page(state: State, first: str, second: str) -> Page:
+    state.first_num = first
+    state.second_num = second
+    
+    try:
+        num1 = float(first)
+        num2 = float(second)
+        result = num1 ** num2
+        if result == 828:
+            state.result = "💌828💌"
+        else:
+            state.result = str(result)
+        state.log.append("Exponent was used")
+    except ValueError:
+        state.result = 'INVALID'
+        state.log.append("Exponent failed")
+        
+    return index(state)
+
+    """
+    power function on the calculator takes first number inputted and second and returns a result as well as if the exponent was succesful or invalid
+
+    Parameters:
+    State takes in state datclass and first and second which are user inputed strings which turn to floats
+
+    Returns:
+    Page returns the exponent result and displays it into the website that you see
+    """
+
+#unit_tests
+#empty test
+assert_equal(index(State("0","0", "", [])),
+             Page(State("0","0", "", []),
+                  ["Enter first number: ",
+                   TextBox("first", "0"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "0"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "",
+                   "Log:"
+                   ]))
+
+#test add
+assert_equal(add_page(State("0", "0", "", []), "2", "3"),
+             Page(State("2", "3", "5.0", ["Addition was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "2"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "3"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "5.0",
+                   "Log:",
+                   "Addition was used"
+                  ]))
+
+#test sub
+assert_equal(sub_page(State("0", "0", "", []), "5", "3"),
+             Page(State("5", "3", "2.0", ["Subtraction was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "5"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "3"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "2.0",
+                   "Log:",
+                   "Subtraction was used"
+                   ]))
+
+#test times
+assert_equal(times_page(State("0", "0", "", []), "3", "7"),
+             Page(State("3", "7", "21.0", ["Multiplication was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "3"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "7"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "21.0",
+                   "Log:",
+                   "Multiplication was used"
+                   ]))
+
+#test div
+assert_equal(div_page(State("0", "0", "", []), "100", "5"),
+             Page(State("100", "5", "20.0", ["Division was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "100"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "5"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "20.0",
+                   "Log:",
+                   "Division was used"
+                   ]))
+
+#test mod
+assert_equal(mod_page(State("0", "0", "", []), "72", "5"),
+             Page(State("72", "5", "2.0", ["Modulo was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "72"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "5"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "2.0",
+                   "Log:",
+                   "Modulo was used"
+                   ]))
+
+#test power
+assert_equal(power_page(State("0", "0", "", []), "10", "2"),
+             Page(State("10", "2", "100.0", ["Exponent was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "10"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "2"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "100.0",
+                   "Log:",
+                   "Exponent was used"
+                   ]))
+
+#test dumb numbers
+assert_equal(add_page(State("0", "0", "", []), "6.999999", "9.666666"),
+             Page(State("6.999999", "9.666666", "16.666665", ["Addition was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "6.999999"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "9.666666"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "16.666665",
+                   "Log:",
+                   "Addition was used"
+                   ]))
+
+#test invalid
+assert_equal(add_page(State("0", "0", "", []), "six", "nine"),
+             Page(State("six", "nine", "INVALID", ["Addition failed"]),
+                  ["Enter first number: ",
+                   TextBox("first", "six"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "nine"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "INVALID",
+                   "Log:",
+                   "Addition failed"
+                   ]))
+
+#test 💌
+assert_equal(add_page(State("0", "0", "", []), "828", "0"),
+             Page(State("828", "0", "💌828💌", ["Addition was used"]),
+                  ["Enter first number: ",
+                   TextBox("first", "828"),
+                   "Enter second number (or exponent value): ",
+                   TextBox("second", "0"),
+                   Button("Add", add_page),
+                   Button("Subtract", sub_page),
+                   Button("Multiply", times_page),
+                   Button("Divide", div_page),
+                   Button("Modulo", mod_page),
+                   Button("Exponent", power_page),
+                   "The result is: ",
+                   "💌828💌",
+                   "Log:",
+                   "Addition was used"
+                   ]))
+
+start_server(State("0","0", "", []))
